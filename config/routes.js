@@ -28,6 +28,12 @@ export default [
                 redirect: '/welcome',
               },
               {
+                path: '/new',
+                icon: 'PieChartOutlined',
+                name: 'new',
+                component: './New',
+              },
+              {
                 path: '/welcome',
                 name: 'welcome',
                 icon: 'smile',
