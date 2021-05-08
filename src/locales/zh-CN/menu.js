@@ -50,4 +50,5 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
   'menu.new': '新的页面',
+  'menu.person': '人员管理',
 };

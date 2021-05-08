@@ -28,6 +28,12 @@ export default [
                 redirect: '/welcome',
               },
               {
+                path: '/person',
+                icon: 'UserOutlined',
+                name: 'person',
+                component: './Person',
+              },
+              {
                 path: '/new',
                 icon: 'PieChartOutlined',
                 name: 'new',
