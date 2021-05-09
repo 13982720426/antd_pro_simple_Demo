@@ -68,6 +68,12 @@ export default [
                 component: './TableList',
               },
               {
+                name: '工作台',
+                icon: 'smile',
+                path: '/dashboardworkplace',
+                component: './DashboardWorkplace',
+              },
+              {
                 component: './404',
               },
             ],
