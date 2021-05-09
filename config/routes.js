@@ -28,6 +28,12 @@ export default [
                 redirect: '/welcome',
               },
               {
+                path: '/todo',
+                icon: 'UnorderedListOutlined',
+                name: 'todo',
+                component: './Todo',
+              },
+              {
                 path: '/person',
                 icon: 'UserOutlined',
                 name: 'person',
@@ -67,12 +73,12 @@ export default [
                 path: '/list',
                 component: './TableList',
               },
-              {
-                name: '工作台',
-                icon: 'smile',
-                path: '/dashboardworkplace',
-                component: './DashboardWorkplace',
-              },
+              // {
+              //   name: '工作台',
+              //   icon: 'smile',
+              //   path: '/dashboardworkplace',
+              //   component: './DashboardWorkplace',
+              // },
               {
                 component: './404',
               },

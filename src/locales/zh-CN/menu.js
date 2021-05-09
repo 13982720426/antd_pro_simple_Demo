@@ -51,4 +51,5 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.new': '新的页面',
   'menu.person': '人员管理',
+  'menu.todo': '代办事项',
 };
