@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {PlusOutlined, EllipsisOutlined} from '@ant-design/icons';
 import {Button, Tag, Space, Menu, Dropdown} from 'antd';
 import type {ProColumns, ActionType} from '@ant-design/pro-table';
@@ -6,6 +6,7 @@ import ProTable, {TableDropdown} from '@ant-design/pro-table';
 import request from 'umi-request';
 import {PageContainer} from '@ant-design/pro-layout';
 import {getPerson} from '@/services/person';
+import {connect} from 'umi';
 
 const columns = [
   {
@@ -19,21 +20,34 @@ const columns = [
   },
 ];
 
-const personList = async () => {
-  //发起请求获取数据
-  const data = await getPerson();
-  return {data};
-};
-
-const Person = () => {
+const Person = props => {
   const actionRef = useRef();
+  console.log(props);
 
+  useEffect(() => {
+    //调用model，更新数据
+    dispatch({
+      type: 'person/fetchPersons', //type:命名空间(namespace)/方法
+      payload: null,
+    });
+  }, []);
+
+  const {dispatch} = props;
+  const personList = async () => {
+    //发起请求获取数据
+    //   const data = await getPerson();
+    //   return {data};
+
+    const data = props.person.persons;
+    return {data};
+  };
   return (
     <PageContainer>
       <ProTable
         columns={columns}
         actionRef={actionRef}
-        request={async (params = {}) => personList()}
+        dataSource={props.person.persons}
+        // request={async (params = {}) => personList()}
         editable={{
           type: 'multiple',
         }}
@@ -61,4 +75,4 @@ const Person = () => {
   );
 };
 
-export default Person;
+export default connect(({person}) => ({person}))(Person);
