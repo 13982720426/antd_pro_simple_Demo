@@ -1,11 +1,8 @@
 import React, {useRef, useEffect} from 'react';
-import {PlusOutlined, EllipsisOutlined} from '@ant-design/icons';
-import {Button, Tag, Space, Menu, Dropdown} from 'antd';
-import type {ProColumns, ActionType} from '@ant-design/pro-table';
-import ProTable, {TableDropdown} from '@ant-design/pro-table';
-import request from 'umi-request';
+
+import ProTable from '@ant-design/pro-table';
+
 import {PageContainer} from '@ant-design/pro-layout';
-import {getPerson} from '@/services/person';
 import {connect} from 'umi';
 
 const columns = [
@@ -22,8 +19,6 @@ const columns = [
 
 const Person = props => {
   const actionRef = useRef();
-  console.log(props);
-
   useEffect(() => {
     //调用model，更新数据
     dispatch({

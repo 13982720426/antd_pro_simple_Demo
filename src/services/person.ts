@@ -1,5 +1,5 @@
-import requset from '@/utils/request';
+import request from '@/utils/request';
 
 export const getPerson = async () => {
-  return requset('/api/person');
+  return request('/api/person');
 };
