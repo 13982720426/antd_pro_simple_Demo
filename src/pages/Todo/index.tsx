@@ -3,9 +3,11 @@ import React, {useEffect, useState} from 'react';
 import {PageContainer} from '@ant-design/pro-layout';
 import {PlusOutlined} from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
-import {Button, Alert} from 'antd';
-import {getTodoLists} from '@/services/todo';
+import {Button, Alert, Modal, message} from 'antd';
+// import {getTodoLists} from '@/services/todo';
 import {connect} from 'umi';
+import ProForm, {ProFormText} from '@ant-design/pro-form';
+import {add} from '@/services/todo';
 
 const status = [
   <Alert message="待办" type="info" showIcon />,
@@ -43,6 +45,8 @@ const columns = [
 // ];
 
 const Todo = props => {
+  const [isModalVisible, setisModalVisible] = useState(false);
+
   //方法一：直接发起请求获取数据
   //   const [data, setData] = useState([]);
   //   useEffect(async () => {
@@ -53,6 +57,32 @@ const Todo = props => {
 
   //方法二：使用model获取数据
   const {todoList: data} = props.todo;
+
+  //打开添加表单的事件
+  const showForm = () => {
+    setisModalVisible(true);
+  };
+
+  //点击模态框关闭的事件
+  const handleCancel = () => {
+    setisModalVisible(false);
+  };
+
+  //提交表单，并且验证通过后执行的方法
+  const handleForm = async value => {
+    // 执行添加todo
+    const res = await add(value);
+    if ((res.status = 201)) {
+      //刷新todoList
+      props.dispatch({
+        type: 'todo/getTodoList',
+        payload: null,
+      });
+      message.success(res.message);
+    } else {
+      message.error(res.message);
+    }
+  };
 
   return (
     <PageContainer>
@@ -65,11 +95,21 @@ const Todo = props => {
         dateFormatter="string"
         headerTitle="待办事项列表"
         toolBarRender={() => [
-          <Button type="primary" key="primary">
+          <Button type="primary" key="primary" onClick={showForm}>
             <PlusOutlined /> 新建
           </Button>,
         ]}
       />
+
+      <Modal title="添加待办事项" visible={isModalVisible} onCancel={handleCancel} footer={null}>
+        <ProForm
+          onFinish={value => {
+            handleForm(value);
+          }}
+        >
+          <ProFormText name="todo" label="待办事项" rules={[{required: true}]} />
+        </ProForm>
+      </Modal>
     </PageContainer>
   );
 };
