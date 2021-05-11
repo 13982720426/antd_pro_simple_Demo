@@ -40,7 +40,7 @@ const Todo = props => {
     if (res.code === 0) {
       //刷新todoList
       props.dispatch({
-        type: 'todo/getTodoList',
+        type: 'todo/getTodoLists',
         payload: null,
       });
       message.success(res.message);
@@ -49,11 +49,22 @@ const Todo = props => {
     }
   };
 
+  //修改todo状态
   const changeStatus = async (id, status) => {
     //调用service中的方法，修改状态
     const res = await edit({id, status});
 
     //判断执行结果
+    if (res.code === 0) {
+      //刷新todoList
+      props.dispatch({
+        type: 'todo/getTodoLists',
+        payload: null,
+      });
+      message.success(res.message);
+    } else {
+      message.error(res.message);
+    }
   };
 
   const status = [
