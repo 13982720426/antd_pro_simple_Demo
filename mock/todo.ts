@@ -23,10 +23,22 @@ export default {
       list.unshift(item)
       //返回添加结果
       res.send({
-        status:201,
+        code:0,
         message:"添加待办事项成功！"
       })
+  },
+    "PUT /api/edit":(req,res)=>{
+      const {id,status}=req.body
+      //筛选todo进行修改
+      list.map((item,index)=>{
+        if(item.id===id) list[index].status=status
+      })
 
-    }
+      //返回修改结果
+      res.send({
+        code:0,
+        message:"修改成功！"
+      })
 
+  }
 }

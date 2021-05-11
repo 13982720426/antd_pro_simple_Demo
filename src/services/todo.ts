@@ -14,3 +14,13 @@ export const add = async data => {
   const options = {data};
   return request.post(url, options);
 };
+/**
+ * 修改TodoList状态
+ */
+export const edit = async data => {
+  const url = '/api/edit';
+  const options = {data};
+  console.log(data);
+
+  return request.put(url, options);
+};

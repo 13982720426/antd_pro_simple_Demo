@@ -7,42 +7,7 @@ import {Button, Alert, Modal, message} from 'antd';
 // import {getTodoLists} from '@/services/todo';
 import {connect} from 'umi';
 import ProForm, {ProFormText} from '@ant-design/pro-form';
-import {add} from '@/services/todo';
-
-const status = [
-  <Alert message="待办" type="info" showIcon />,
-  <Alert message="已完成" type="success" showIcon />,
-  <Alert message="已取消" type="error" showIcon />,
-];
-
-const columns = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    render: (_, record) => {
-      return status[record.status];
-    },
-  },
-  {
-    title: '修改状态',
-    render: () => [<a key={0}>待办 </a>, <a key={1}>完成 </a>, <a key={2}>取消</a>],
-  },
-];
-
-// const data = [
-//   {id: 1, title: 'TodoList列表', status: 0},
-//   {id: 2, title: 'TodoList添加', status: 1},
-//   {id: 3, title: 'TodoList编辑', status: 2},
-//   {id: 4, title: 'TodoList修改状态', status: 0},
-// ];
+import {add, edit} from '@/services/todo';
 
 const Todo = props => {
   const [isModalVisible, setisModalVisible] = useState(false);
@@ -72,7 +37,7 @@ const Todo = props => {
   const handleForm = async value => {
     // 执行添加todo
     const res = await add(value);
-    if ((res.status = 201)) {
+    if (res.code === 0) {
       //刷新todoList
       props.dispatch({
         type: 'todo/getTodoList',
@@ -83,6 +48,72 @@ const Todo = props => {
       message.error(res.message);
     }
   };
+
+  const changeStatus = async (id, status) => {
+    //调用service中的方法，修改状态
+    const res = await edit({id, status});
+
+    //判断执行结果
+  };
+
+  const status = [
+    <Alert message="待办" type="info" showIcon />,
+    <Alert message="已完成" type="success" showIcon />,
+    <Alert message="已取消" type="error" showIcon />,
+  ];
+
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: (_, record) => {
+        return status[record.status];
+      },
+    },
+    {
+      title: '修改状态',
+      render: (_, record) => {
+        const editOperation = [];
+        if (record.status !== 0) {
+          editOperation.push(
+            <a onClick={() => changeStatus(record.id, 0)} key={0}>
+              待办
+            </a>
+          );
+        }
+        if (record.status !== 1) {
+          editOperation.push(
+            <a onClick={() => changeStatus(record.id, 1)} key={1}>
+              完成
+            </a>
+          );
+        }
+        if (record.status !== 2) {
+          editOperation.push(
+            <a onClick={() => changeStatus(record.id, 2)} key={2}>
+              取消
+            </a>
+          );
+        }
+        return editOperation;
+      },
+    },
+  ];
+
+  // const data = [
+  //   {id: 1, title: 'TodoList列表', status: 0},
+  //   {id: 2, title: 'TodoList添加', status: 1},
+  //   {id: 3, title: 'TodoList编辑', status: 2},
+  //   {id: 4, title: 'TodoList修改状态', status: 0},
+  // ];
 
   return (
     <PageContainer>
